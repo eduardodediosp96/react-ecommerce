@@ -1,3 +1,4 @@
+#!/bin/bash
 # yarn husky add .husky/pre-commit "yarn tsc --noEmit && yarn eslint . && yarn prettier --write ."
 # yarn tsc --noEmit && yarn eslint . && yarn prettier --write .
 # yarn tsc --noEmit && yarn eslint . && yarn prettier --write .
