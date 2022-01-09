@@ -9,5 +9,7 @@ export default function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
+  // const data = req.body;
+  // const client = await MongoClient.connect('mongodb+srv://DanielaArgumanis:daniela296@cluster0.hlpeo.mongodb.net/myFirstDatabase?retryWrites=true&w=majority');
   res.status(200).json({ name: 'John Doe' })
 }

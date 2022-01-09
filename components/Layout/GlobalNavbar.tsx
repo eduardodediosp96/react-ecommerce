@@ -1,7 +1,7 @@
 import { Header } from 'antd/lib/layout/layout'
 
 const GlobalNavbar = () => {
-  return <Header>Header</Header>
+  return <Header/>
 }
 
 export default GlobalNavbar

@@ -1,25 +1,61 @@
-import { useRouter } from 'next/router'
+import { MongoClient, ObjectId } from 'mongodb'
 import ProductDetails from '../../components/Products/ProductDetails'
+import { ProductType } from '../../types/product'
 
-const DUMMY_PRODUCT = {
-  name: 'Headphones',
-  price: 100,
-  currency: '$',
-  description:
-    'The new XX99 Mark II headphones is the pinnacle of pristine audio. It redefines your premium headphone experience by reproducing the balanced depth and precision of studio-quality sound.',
-  features:
-    'Featuring a genuine leather head strap and premium earcups, these headphones deliver superior comfort for those who like to enjoy endless listening. It includes intuitive controls designed for any situation. Whether you’re taking a business call or just in your own personal space, the auto on/off and pause features ensure that you’ll never miss a beat. The advanced Active Noise Cancellation with built-in equalizer allow you to experience your audio world on your terms. It lets you enjoy your audio in peace, but quickly interact with your surroundings when you need to. Combined with Bluetooth 5. 0 compliant connectivity and 17 hour battery life, the XX99 Mark II headphones gives you superior sound, cutting-edge technology, and a modern design aesthetic.',
-  items: [
-    { quantity: 1, name: 'Headphone unit' },
-    { quantity: 2, name: 'Replacement earcups' },
-  ],
+interface ProductDetailProps {
+  product: ProductType
 }
 
-function ProductDetail() {
-  const router = useRouter()
-  const productId = router.query.productId as string
-  const product = { ...DUMMY_PRODUCT, id: productId }
+function ProductDetail({ product }: ProductDetailProps) {
+  // const router = useRouter()
+  // const productId = router.query.productId as string
   return <ProductDetails product={product} />
+}
+
+export async function getStaticPaths() {
+  const client = await MongoClient.connect(
+    'mongodb+srv://DanielaArgumanis:daniela296@cluster0.hlpeo.mongodb.net/ecommerce_products?retryWrites=true&w=majority'
+  )
+  const db = client.db()
+  const productsCollection = db.collection('products')
+  const products = await productsCollection
+    .find({}, { projection: { _id: 1 } })
+    .toArray()
+  const paramList = products.map((product) => ({
+    params: {
+      productId: product._id.toString(),
+    },
+  }))
+
+  return {
+    fallback: false,
+    paths: paramList,
+  }
+}
+
+export async function getStaticProps(context: {
+  params: { productId: string }
+}) {
+  const id = context.params.productId
+  const client = await MongoClient.connect(
+    'mongodb+srv://DanielaArgumanis:daniela296@cluster0.hlpeo.mongodb.net/ecommerce_products?retryWrites=true&w=majority'
+  )
+  const db = client.db()
+  const productsCollection = db.collection('products')
+  const productDetails = await productsCollection.findOne({ _id: new ObjectId(id) })
+
+  return {
+    props: {
+      product: {
+        id: productDetails?._id.toString(),
+        name: productDetails?.name,
+        description: productDetails?.description,
+        features: productDetails?.features,
+        price: productDetails?.price,
+        currency: productDetails?.currency,
+      }
+    },
+  }
 }
 
 export default ProductDetail

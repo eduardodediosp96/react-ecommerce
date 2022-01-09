@@ -23,14 +23,14 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
         <Title>Features</Title>
         <Paragraph>{product.features}</Paragraph>
       </Typography>
-      <Typography>
+      {/* <Typography>
         <Title>In the box</Title>
         {product.items.map((item, index) => (
           <Paragraph key={index}>
             {item.quantity}x {item.name}
           </Paragraph>
         ))}
-      </Typography>
+      </Typography> */}
     </>
   )
 }
