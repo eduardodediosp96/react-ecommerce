@@ -9,12 +9,15 @@ const Home = () => {
     <>
       <Head>
         <title>Ecommerce</title>
-        <meta name='description' content='Boilerplate for an ecommerce website'></meta>
+        <meta
+          name="description"
+          content="Boilerplate for an ecommerce website"
+        ></meta>
       </Head>
-        <HomeHeader></HomeHeader>
-        {categories.map((category, index) => (
-          <ProductCategory key={index} category={category} />
-        ))}
+      <HomeHeader></HomeHeader>
+      {categories.map((category, index) => (
+        <ProductCategory key={index} category={category} />
+      ))}
     </>
   )
 }

@@ -15,7 +15,7 @@ function ProductsList({ products }: ProductsListProps) {
     <>
       <ProductsHeader title={category} />
       {products.map((product, index) => (
-        <ProductDetails key={index} product={product}/>
+        <ProductDetails key={index} product={product} />
       ))}
     </>
   )

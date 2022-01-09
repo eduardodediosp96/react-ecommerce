@@ -42,7 +42,9 @@ export async function getStaticProps(context: {
   )
   const db = client.db()
   const productsCollection = db.collection('products')
-  const productDetails = await productsCollection.findOne({ _id: new ObjectId(id) })
+  const productDetails = await productsCollection.findOne({
+    _id: new ObjectId(id),
+  })
 
   return {
     props: {
@@ -53,7 +55,7 @@ export async function getStaticProps(context: {
         features: productDetails?.features,
         price: productDetails?.price,
         currency: productDetails?.currency,
-      }
+      },
     },
   }
 }
